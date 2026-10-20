@@ -1,0 +1,45 @@
+const translations = {
+    es: {
+        nameLabel: "Nombre:",
+        dateLabel: "Fecha:",
+        timeLabel: "Hora:",
+        submitBtn: "Reservar",
+        title: "Reserva tu lugar"
+    },
+    en: {
+        nameLabel: "Name:",
+        dateLabel: "Date:",
+        timeLabel: "Time:",
+        submitBtn: "Book",
+        title: "Book Your Spot"
+    }
+};
+
+function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    Object.keys(translations[lang]).forEach(key => {
+        const elements = document.querySelectorAll(`[data-translate=${key}]`);
+        elements.forEach(el => el.textContent = translations[lang][key]);
+    });
+}
+
+document.getElementById("reservationForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+
+    if (name && date && time) {
+        const message = `Reserva:\nNombre: ${name}\nFecha: ${date}\nHora: ${time}`;
+        const phoneNumber = "52XXXXXXXXXX";  // Pon aquí el número WhatsApp de la empresa con el código de país
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
+    } else {
+        alert("Por favor completa todos los campos.");
+    }
+});
+
+// Inicialmente en español
+setLanguage("es");
